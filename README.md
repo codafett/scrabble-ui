@@ -66,3 +66,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+## `Git ssh keys`
+Configure the key to use with 
+git config core.sshCommand "ssh -i ~/.ssh/id_rsa_example -F /dev/null"
