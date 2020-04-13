@@ -1,0 +1,15 @@
+version: "3"
+services:
+  scrabble-ui:
+    image: scrabble-i
+    container_name: scrabble-ui
+    restart: always
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - 'JWT_TOKEN_SECRET=@£%2tq4Q£43qy'
+      - PORT=4090
+      - TEST_PORT=4091
+      - DB=mongodb://scrabble-db:27017/scrabble
+      - LOG_LEVEL=debug
