@@ -27,6 +27,7 @@ import Button from '../Button';
 import { PLAY_MUTATION } from './mutations';
 import { toast } from 'react-toastify';
 import colours from '../../styles/colours';
+import messageHelper from '../../helpers/messageHelper';
 
 const Game = ({
   match,
@@ -58,7 +59,7 @@ const Game = ({
         setPlayedTiles([]);
         setScore(0);
       },
-      onError: error => console.log(error),
+      onError: error => messageHelper.renderGraphQlError(error),
     }
   );
 
