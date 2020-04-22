@@ -13,6 +13,7 @@ export const ButtonBarLocationCodes = Object.freeze({
 
 const ButtonBar = styled.div`
   display: flex;
+  box-sizing: border-box;
   position: ${({ isSticky }) => isSticky ? 'sticky' : ''};
   top: ${({ isSticky, top }) => isSticky ? top : ''};
   justify-content: ${({ justifyContent }) => justifyContent};

@@ -18,6 +18,7 @@ import { getMainDefinition } from 'apollo-utilities';
 import Helmet from 'react-helmet';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { setContext } from 'apollo-link-context'
 
 import GlobalStyles from '../../styles/globalStyles';
 import Games from '../Games';
@@ -42,6 +43,16 @@ export const DefaultLayout = ({ component: Component, ...rest }) => (
 DefaultLayout.propTypes = {
   component: PropTypes.any,
 };
+
+const authLink = setContext((_, { headers }) => {
+  const token = storageManager.getIdToken();
+  return {
+    headers: {
+      ...headers,
+      'x-access-token': token || '',
+    }
+  }
+});
 
 function createHttpLink() {
   const httpLinkConfig = {
@@ -90,9 +101,11 @@ function createLink() {
 }
 
 const getClient = () => {
+  console.log('creating client');
+
   const apolloConfig = {
     cache: new InMemoryCache(),
-    link: createLink(),
+    link: authLink.concat(createLink()),
   };
   return new ApolloClient(apolloConfig);
 };
@@ -128,7 +141,7 @@ export default function Application() {
           <DefaultLayout path="/newgame" component={RequireAuth(NewGame)} />
           <DefaultLayout path="/games" component={RequireAuth(Games)} />
           <DefaultLayout path="/game/:id" component={RequireAuth(Game)} />
-          <DefaultLayout path="/login" component={Login} />
+          <Route path="/login" component={Login} />
         </Switch>
       </Router>
     </ApolloProvider>

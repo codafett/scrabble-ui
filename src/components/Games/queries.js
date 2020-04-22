@@ -6,6 +6,7 @@ export const GET_GAMES_QUERY = gql`
       _id
       createdAt
       players {
+        _id
         firstName
         lastName
       }

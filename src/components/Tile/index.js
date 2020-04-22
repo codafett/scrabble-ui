@@ -33,7 +33,7 @@ Tile.propTypes = {
 };
 
 Tile.defaultProps = {
-  width: '40px',
+  width: '30px',
   fontSize: '3rem',
 };
 

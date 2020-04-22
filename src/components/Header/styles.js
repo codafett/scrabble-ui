@@ -15,6 +15,12 @@ export const HeaderWrapper = styled.div`
   padding: 2px 4px;
 `;
 
+export const HeaderContent = styled.div`
+  display: flex;
+  width: 330px;
+  margin: 0 auto;
+`;
+
 export const Title = styled.div`
   display: flex;
   align-items: center;

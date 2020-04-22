@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 
 import { GameList, GameItem, PlayerList, GameTitle, GameDate } from './styles';
 import { GET_GAMES_QUERY } from './queries';
@@ -8,7 +9,6 @@ import LoadingPanel from '../LoadingPanel';
 import dayjs from 'dayjs';
 import ButtonBar from '../ButtonBar';
 import Button from '../Button';
-import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 
 const tiles = [];
 
@@ -60,13 +60,16 @@ const Games = ({
         {gamesData.games.map(
           game => (
             <GameItem
+              key={game._id}
               onClick={() => handleGameClick(game._id)}
             >
               <PlayerList>
               {
                 game.players.map(
                   player => (
-                    <div>
+                    <div
+                      key={player._id}
+                    >
                       {`${player.firstName} ${player.lastName}`}
                     </div>
                   )

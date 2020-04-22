@@ -5,10 +5,33 @@ export const GameWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: auto;
-  margin: 20px auto;
+  margin: 10px auto;
   > div {
     margin-bottom: 10px;
   }
+`;
+
+export const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: solid 1px ${colours.BORDER.NORMAL};
+`;
+
+export const SectionTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 4px 0;
+`;
+
+export const SectionInfo = styled.div`
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 4px 0;
 `;
 
 export const TileRack = styled.div`
@@ -19,7 +42,7 @@ export const TileRack = styled.div`
   border: solid 1px ${({ borderColour }) => borderColour || colours.BORDER.NORMAL};
   padding: 6px;
   border-radius: 4px;
-  height: 42px;
+  height: 32px;
   > div {
     margin-right: 10px;
     &:last-child {
@@ -44,38 +67,8 @@ export const TilePlayed = styled.div`
   opacity: 0.8;
 `;
 
-export const PlayedRack = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  background-color: ${colours.PRIMARY.LIGHTEST};
-  border: solid 1px ${colours.PRIMARY.NORMAL};
-  padding: 6px;
-  border-radius: 4px;
-  height: 42px;
-  > div {
-    margin-right: 10px;
-    &:last-child {
-      margin-right: 0;
-    }
-  }
-`;
-
 export const PlayedTileWrapper = styled.div`
   position: relative;
-`;
-
-export const PlayerTileSelected = styled.div`
-  display: ${({ selected }) => selected ? 'inline-block' : 'none'};
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  border-radius: 4px;
-  z-index: 1;
-  opacity: 0.2;
-  border: solid 2px ${colours.PRIMARY.DARKER};
 `;
 
 export const FormControl = styled.div`
@@ -88,10 +81,9 @@ export const FormControl = styled.div`
   }
 `;
 
-export const PlayWrapper = styled.div`
-  justify-self: flex-end;
-  margin-left: auto;
+export const SectionContent = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   ${FormControl} {
     margin-right: 10px;

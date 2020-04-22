@@ -47,5 +47,6 @@ export default createGlobalStyle`
     padding: 6px 2px;
     border: solid 1px ${colours.BORDER.NORMAL};
     border-radius: 4px;
+    color: ${colours.TEXT};
   }
 `;

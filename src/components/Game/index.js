@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { useState } from 'react';
-import { faRandom, faPlay, faArrowUp, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faRandom, faPlay, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
 import { GET_GAME_QUERY } from './queries';
@@ -10,21 +10,21 @@ import LoadingPanel from '../LoadingPanel';
 import Tile from '../Tile';
 import {
   TileRack,
-  PlayedRack,
   GameWrapper,
   TileWrapper,
   TilePlayed,
   PlayedTileWrapper,
-  PlayerTileSelected,
-  PlayWrapper,
+  SectionContent,
   FormControl,
+  Section,
+  SectionTitle,
+  SectionInfo,
 } from './styles';
 import { useEffect } from 'react';
 
 import arrayHelper from '../../helpers/arrayHelper';
 import Button from '../Button';
 import { PLAY_MUTATION } from './mutations';
-import ButtonBar from '../ButtonBar';
 import { toast } from 'react-toastify';
 import colours from '../../styles/colours';
 
@@ -122,8 +122,10 @@ const Game = ({
 
   function renderLastTurn() {
     return lastTurn ? (
-      <React.Fragment>
-        <h2>Last Turn You PLayed...</h2>
+      <Section>
+        <SectionTitle>
+          Last Turn You Played...
+        </SectionTitle>
         <TileRack
           backgroundColour={colours.SECONDARY.LIGHTEST}
           borderColour={colours.SECONDARY.DARKER}
@@ -137,8 +139,10 @@ const Game = ({
             />
           </TileWrapper>
         ))}</TileRack>
-        <h2>You Scored: {lastTurn.score}</h2>
-      </React.Fragment>
+        <SectionInfo>
+          You Scored: {lastTurn.score}
+        </SectionInfo>
+      </Section>
     )
     : null;
   }
@@ -146,73 +150,86 @@ const Game = ({
   return (
     <GameWrapper>
       {renderLastTurn()}
-      <h2>These Are Your Tiles...</h2>
-      <TileRack
-        backgroundColour={colours.QUARTARY.LIGHTER}
-        borderColour={colours.QUARTARY.DARKER}
-      >{myTiles.map(t => (
-        <TileWrapper
-          onClick={() => handleTileClick(t)}
-        >
-          <TilePlayed
-            played={playedTiles.find(pt => pt._id === t._id)}
+      <Section>
+        <SectionTitle>
+          These Are Your Tiles...
+          <Button
+            onClick={shuffleMyTile}
+            icon={faRandom}
           />
-          <Tile
-            letter={t.letter}
-            score={t.value}
+        </SectionTitle>
+        <TileRack
+          backgroundColour={colours.QUARTARY.LIGHTER}
+          borderColour={colours.QUARTARY.DARKER}
+        >{myTiles.map(t => (
+          <TileWrapper
+            onClick={() => handleTileClick(t)}
+          >
+            <TilePlayed
+              played={playedTiles.find(pt => pt._id === t._id)}
+            />
+            <Tile
+              letter={t.letter}
+              score={t.value}
+            />
+          </TileWrapper>
+        ))}</TileRack>
+      </Section>
+      <Section>
+        <SectionTitle>
+          Make Your Word...
+          <Button
+            onClick={handleTilesSelected}
+            icon={faTrash}
+            disabled={!playedTiles.length}
           />
-        </TileWrapper>
-      ))}</TileRack>
-      <ButtonBar>
-        <Button
-          onClick={shuffleMyTile}
-          icon={faRandom}
-        />
-      </ButtonBar>
-      <h2>Make Your Word...</h2>
-      <TileRack
-        backgroundColour={colours.PRIMARY.LIGHTEST}
-        borderColour={colours.PRIMARY.DARKER}
-      >{playedTiles.map(t => (
-        <PlayedTileWrapper
-          onClick={() => unPlayTile(t)}
-        >
-          <Tile
-            letter={t.letter}
-            score={t.value}
-          />
-        </PlayedTileWrapper>
-      ))}</TileRack>
-      <ButtonBar>
-        <Button
-          onClick={handleTilesSelected}
-          icon={faTrash}
-          disabled={!playedTiles.length}
-        />
-      </ButtonBar>
-      <h2>What's your score...</h2>
-      <FormControl>
-        <span>Score</span>
-        <input
-          onChange={e => setScore(e.target.value)}
-          type="number"
-          value={score}
-        />
-      </FormControl>
-      <h2>Let's Play!</h2>
-      <PlayWrapper>
-        <Button
-          onClick={handlePlay}
-          icon={faPlay}
-          text="Play"
-          disabled={
-            !playedTiles.length
-            || (
-              !score
-              && score !== 0
-            )}
-          />
-    </PlayWrapper>
+        </SectionTitle>
+        <TileRack
+          backgroundColour={colours.PRIMARY.LIGHTEST}
+          borderColour={colours.PRIMARY.DARKER}
+        >{playedTiles.map(t => (
+          <PlayedTileWrapper
+            onClick={() => unPlayTile(t)}
+          >
+            <Tile
+              letter={t.letter}
+              score={t.value}
+            />
+          </PlayedTileWrapper>
+        ))}</TileRack>
+      </Section>
+      <Section>
+        <SectionContent>
+          <SectionTitle>
+            What's your score...
+          </SectionTitle>
+          <FormControl>
+            <input
+              onChange={e => setScore(e.target.value)}
+              type="number"
+              value={score}
+            />
+          </FormControl>
+        </SectionContent>
+      </Section>
+      <Section>
+        <SectionContent>
+          <SectionTitle>
+            Let's Play!
+          </SectionTitle>
+          <Button
+            onClick={handlePlay}
+            icon={faPlay}
+            text="Play"
+            disabled={
+              !playedTiles.length
+              || (
+                !score
+                && score !== 0
+              )}
+            />
+      </SectionContent>
+      </Section>
 </GameWrapper>
   );
 };
