@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  scrabble-ui:
+    volumes:
+      - ./src:/src/src:rw
+    environment:
+      - API_URL=http://scrabble-api:4090/
+networks:
+  default:
+    external:
+      name: scrabble

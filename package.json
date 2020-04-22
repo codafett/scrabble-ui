@@ -14,10 +14,13 @@
     "@testing-library/user-event": "^7.2.1",
     "apollo-link-ws": "^1.0.19",
     "apollo-utilities": "^1.3.3",
+    "cross-env": "^7.0.2",
     "dayjs": "^1.8.23",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "graphql": "^14.6.0",
     "http-proxy-middleware": "^1.0.3",
+    "minimist": "^1.2.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^5.2.1",
@@ -32,7 +35,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "docker:dev:build": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml build",
+    "docker:dev:up": "docker-compose -f docker-compose.yml -f docker-compose-dev.yml up",
+    "docker:build": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml build",
+    "docker:up": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -48,5 +55,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "circular-dependency-plugin": "^5.2.0",
+    "html-loader": "^1.1.0",
+    "webpack-hot-middleware": "^2.25.0"
   }
 }
