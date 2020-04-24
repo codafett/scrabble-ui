@@ -89,3 +89,34 @@ export const SectionContent = styled.div`
     margin-right: 10px;
   }
 `;
+
+export const LeaderBoard = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Player = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: ${({ currentPlayer }) => currentPlayer ? '600' : 'normal' };
+  padding: 6px 4px;
+  border-bottom: solid 1px ${colours.BORDER.NORMAL};
+  text-transform: capitalize;
+  > div {
+    display: flex;
+  }
+  &:last-child {
+    border-bottom: 0;
+    margin-bottom: -10px;
+  }
+`;
+
+export const PlayerIndicator = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  color: ${({ currentPlayer }) => currentPlayer ? colours.PRIMARY.NORMAL : 'inherit' };
+`;

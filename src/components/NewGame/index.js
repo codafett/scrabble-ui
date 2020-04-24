@@ -25,7 +25,7 @@ const NewGame = ({
     {
       onCompleted: (result) => {
         toast.success('Game Created!')
-        history.push(`/game/${result.start}`);
+        history.push(`/games/${result.start}`);
       },
       onError: error => console.log(error),
     }

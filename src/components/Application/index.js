@@ -139,8 +139,8 @@ export default function Application() {
           />
           <DefaultLayout path="/home" component={RequireAuth(Games)} />
           <DefaultLayout path="/newgame" component={RequireAuth(NewGame)} />
+          <DefaultLayout path="/games/:id" component={RequireAuth(Game)} />
           <DefaultLayout path="/games" component={RequireAuth(Games)} />
-          <DefaultLayout path="/game/:id" component={RequireAuth(Game)} />
           <Route path="/login" component={Login} />
         </Switch>
       </Router>

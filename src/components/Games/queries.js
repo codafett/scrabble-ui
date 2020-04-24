@@ -10,6 +10,11 @@ export const GET_GAMES_QUERY = gql`
         firstName
         lastName
       }
+      currentPlayer {
+        _id
+        firstName
+        lastName
+      }
     }
   }
 `;

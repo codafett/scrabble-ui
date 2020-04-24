@@ -73,7 +73,6 @@ function Checkbox({ text, checked, onChecked, style, testid, fontSize, disabled 
       onChecked(!checked, e);
     }
   }
-  console.log('checkbox', checked);
   return (
     <CheckboxWrapper onClick={handleChecked} checked={checked} disabled={disabled} style={style} data-testid={testid}>
       <CheckboxIconWrapper visible={checked} fontSize={fontSize}>

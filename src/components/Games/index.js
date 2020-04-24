@@ -10,20 +10,14 @@ import dayjs from 'dayjs';
 import ButtonBar from '../ButtonBar';
 import Button from '../Button';
 
-const tiles = [];
-
-for(let i = 0; i < 255; i++) {
-  tiles.push({
-    letter: 'w',
-    value: 10,
-  });
-}
-
 const Games = ({
   history,
 }) => {
   const { data: gamesData, loading } = useQuery(
     GET_GAMES_QUERY,
+    {
+      fetchPolicy: 'no-cache',
+    },
   );
 
   if (loading) {
@@ -33,7 +27,7 @@ const Games = ({
   }
 
   function handleGameClick(gameId) {
-    history.push(`game/${gameId}`);
+    history.push(`/games/${gameId}`);
   }
 
   function handleNewGameClick() {

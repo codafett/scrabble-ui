@@ -4,8 +4,11 @@ export const GET_GAME_QUERY = gql`
   query game ($gameId: ID){
     game (gameId: $gameId){
       players {
+        _id
         firstName
         lastName
+        playOrder
+        score
       }
       myTiles {
         _id
@@ -18,6 +21,12 @@ export const GET_GAME_QUERY = gql`
           letter
           value
         }
+        score
+      }
+      currentPlayer {
+        _id
+        firstName
+        lastName
         score
       }
     }

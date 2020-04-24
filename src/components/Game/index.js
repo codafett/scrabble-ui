@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { useState } from 'react';
-import { faRandom, faPlay, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faRandom, faPlay, faTrash, faSadCry } from '@fortawesome/free-solid-svg-icons';
 
 
 import { GET_GAME_QUERY } from './queries';
@@ -19,8 +19,10 @@ import {
   Section,
   SectionTitle,
   SectionInfo,
+  LeaderBoard,
+  Player,
+  PlayerIndicator,
 } from './styles';
-import { useEffect } from 'react';
 
 import arrayHelper from '../../helpers/arrayHelper';
 import Button from '../Button';
@@ -28,8 +30,9 @@ import { PLAY_MUTATION } from './mutations';
 import { toast } from 'react-toastify';
 import colours from '../../styles/colours';
 import messageHelper from '../../helpers/messageHelper';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Game = ({
+const Games = ({
   match,
 }) => {
   const [gameId] = useState(match.params.id);
@@ -37,13 +40,22 @@ const Game = ({
   const [playedTiles, setPlayedTiles] = useState([]);
   const [score, setScore] = useState();
   const [lastTurn, setLastTurn] = useState();
+  const [currentPlayer, setCurrentPlayer] = useState();
+  const [loaded, setLoaded] = useState();
 
-  const { data: gameData, loading } = useQuery(
+  const { data: gameData, loading, refetch } = useQuery(
     GET_GAME_QUERY,
     {
       variables: {
         gameId,
       },
+      onCompleted: (gameData) => {
+        console.log(gameData.game.currentPlayer);
+        setMyTiles(gameData.game.myTiles);
+        setLastTurn(gameData.game.lastTurn);
+        setCurrentPlayer(gameData.game.currentPlayer);
+        setLoaded(true);
+      }
     },
   );
 
@@ -58,22 +70,13 @@ const Game = ({
         setLastTurn(result.play.lastTurn);
         setPlayedTiles([]);
         setScore(0);
+        refetch();
       },
       onError: error => messageHelper.renderGraphQlError(error),
     }
   );
 
-  useEffect(
-    () => {
-      if (gameData && gameData.game) {
-        setMyTiles(gameData.game.myTiles);
-        setLastTurn(gameData.game.lastTurn);
-      }
-    },
-    [loading, gameData],
-  )
-
-  if (loading) {
+  if (loading || !loaded) {
     return (
       <LoadingPanel isLoading message="Loading Game..." />
     );
@@ -117,6 +120,16 @@ const Game = ({
     })
   }
 
+  function handleCantPlay() {
+    play({
+      variables: {
+        gameId,
+        tileIds: [],
+        score: 0,
+      },
+    })
+  }
+
   function handleTilesSelected() {
     setPlayedTiles([]);
   }
@@ -132,6 +145,7 @@ const Game = ({
           borderColour={colours.SECONDARY.DARKER}
         >{lastTurn.tiles.map(t => (
           <TileWrapper
+            key={t._id}
             onClick={() => handleTileClick(t)}
           >
             <Tile
@@ -148,8 +162,56 @@ const Game = ({
     : null;
   }
 
+  function renderPlayerIndicatorIcon(
+    currentPlayer
+  ) {
+    return currentPlayer
+      ? (
+        <FontAwesomeIcon
+          icon={faPlay}
+        />
+      )
+      : null;
+  }
+
+  function renderLeaderBoard() {
+    return gameData.game.players.map(
+      (player) => {
+        const currentPlayer = player._id === gameData.game.currentPlayer._id;
+        return (
+          <Player
+            key={player._id}
+            currentPlayer={!!currentPlayer}
+          >
+            <div>
+              <PlayerIndicator
+                currentPlayer={!!currentPlayer}
+              >
+                {renderPlayerIndicatorIcon(currentPlayer)}
+              </PlayerIndicator>
+              <div>
+                {`${player.firstName} ${player.lastName}`}
+              </div>
+            </div>
+            <div>
+              {player.score}
+            </div>
+          </Player>
+        );
+      }
+    )
+  }
+
   return (
     <GameWrapper>
+      <Section>
+        <SectionTitle>
+          Players:
+        </SectionTitle>
+        <LeaderBoard>
+          {renderLeaderBoard()}
+        </LeaderBoard>
+      </Section>
       {renderLastTurn()}
       <Section>
         <SectionTitle>
@@ -164,6 +226,7 @@ const Game = ({
           borderColour={colours.QUARTARY.DARKER}
         >{myTiles.map(t => (
           <TileWrapper
+            key={t._id}
             onClick={() => handleTileClick(t)}
           >
             <TilePlayed
@@ -190,6 +253,7 @@ const Game = ({
           borderColour={colours.PRIMARY.DARKER}
         >{playedTiles.map(t => (
           <PlayedTileWrapper
+            key={t._id}
             onClick={() => unPlayTile(t)}
           >
             <Tile
@@ -219,6 +283,11 @@ const Game = ({
             Let's Play!
           </SectionTitle>
           <Button
+            onClick={handleCantPlay}
+            icon={faSadCry}
+            text="Can't Play"
+            />
+          <Button
             onClick={handlePlay}
             icon={faPlay}
             text="Play"
@@ -235,4 +304,4 @@ const Game = ({
   );
 };
 
-export default withRouter(Game);
+export default withRouter(Games);
