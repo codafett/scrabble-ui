@@ -40,7 +40,6 @@ const Games = ({
   const [playedTiles, setPlayedTiles] = useState([]);
   const [score, setScore] = useState();
   const [lastTurn, setLastTurn] = useState();
-  const [currentPlayer, setCurrentPlayer] = useState();
   const [loaded, setLoaded] = useState();
 
   const { data: gameData, loading, refetch } = useQuery(
@@ -49,11 +48,11 @@ const Games = ({
       variables: {
         gameId,
       },
+      fetchPolicy: 'no-cache',
       onCompleted: (gameData) => {
         console.log(gameData.game.currentPlayer);
         setMyTiles(gameData.game.myTiles);
         setLastTurn(gameData.game.lastTurn);
-        setCurrentPlayer(gameData.game.currentPlayer);
         setLoaded(true);
       }
     },
