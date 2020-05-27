@@ -1,0 +1,39 @@
+FROM node:10.13.0-alpine AS build-stage
+
+# Create app directory
+# RUN mkdir /app
+WORKDIR /app
+
+# Install app dependencies
+COPY package.json /app/
+COPY package-lock.json /app/
+
+RUN npm i
+
+# Bundle app source
+COPY . /app/
+
+# Build the dll
+RUN npm run build
+
+FROM build-stage as test
+
+FROM node:10.13.0-alpine  as prod
+
+# Create app directory
+# RUN mkdir /app
+WORKDIR /app
+
+COPY --from=build-stage /src/build/ /app/build/
+COPY --from=build-stage /src/meta.json /app/meta.json
+COPY --from=build-stage /src/config/ /app/config/
+COPY --from=build-stage /src/server/ /app/server/
+COPY --from=build-stage /src/package.json /app/
+
+RUN npm i --production
+
+# Expose port
+EXPOSE 80
+
+# Define Commands
+CMD [ "npm", "run", "start:prod" ]

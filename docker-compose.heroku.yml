@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  scrabble-ui:
+    image: scrabble-ui
+    container_name: scrabble-ui
+    build:
+      context: .
+      dockerfile: Dockerfile.heroku
+    ports:
+      - '80:80'
+    environment:
+      - API_URL=http://localhost:4090/graphql
+networks:
+  default:
+    external:
+      name: scrabble

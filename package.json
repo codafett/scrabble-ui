@@ -38,6 +38,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "docker:heroku:build": "docker-compose -f docker-compose.yml -f docker-compose.heroku.yml build",
+    "docker:heroku:up": "docker-compose -f docker-compose.yml -f docker-compose-heroku.yml up",
     "docker:dev:build": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml build",
     "docker:dev:up": "docker-compose -f docker-compose.yml -f docker-compose-dev.yml up",
     "docker:build": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml build",

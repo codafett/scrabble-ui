@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import colours from '../../styles/colours';
-import Button from '../Button';
 import ButtonBarStyles from './buttonBarStyles';
 
 export const ButtonBarLocationCodes = Object.freeze({

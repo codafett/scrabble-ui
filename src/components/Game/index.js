@@ -42,7 +42,7 @@ const Games = ({
   const [lastTurn, setLastTurn] = useState();
   const [loaded, setLoaded] = useState();
 
-  const { data: gameData, loading, refetch } = useQuery(
+  const { data: gameData, loading, refetch, startPolling } = useQuery(
     GET_GAME_QUERY,
     {
       variables: {
@@ -80,6 +80,8 @@ const Games = ({
       <LoadingPanel isLoading message="Loading Game..." />
     );
   }
+
+  startPolling(1000);
 
   function handleTileClick(tile) {
     const playedTile = playedTiles.find(
@@ -145,7 +147,6 @@ const Games = ({
         >{lastTurn.tiles.map(t => (
           <TileWrapper
             key={t._id}
-            onClick={() => handleTileClick(t)}
           >
             <Tile
               letter={t.letter}
