@@ -5,6 +5,8 @@ console.log(config);
 const graphqlUrl = `${config.apiUrl}/graphql`;
 console.log(graphqlUrl);
 
+console.log('Setting up proxy');
+
 module.exports = function(app) {
 	app.use(
     createProxyMiddleware(
